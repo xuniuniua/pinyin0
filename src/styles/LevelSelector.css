@@ -1,0 +1,417 @@
+.level-selector {
+  width: 100%;
+  max-width: 1000px;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 20px;
+  box-shadow: none;
+  margin: 280px 0 20px 0;
+  backdrop-filter: none;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.level-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4a89dc;
+  font-size: 1.8rem;
+}
+
+.levels-container {
+  display: grid;
+  grid-template-columns: repeat(7, 130px); /* 每行7关，每个关卡宽度为130px */
+  gap: 26px; /* 横竖间距为26px */
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.level-button {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+.level-button::after {
+  display: none;
+}
+
+.level-button::before {
+  display: none;
+}
+
+.level-button:focus, 
+.level-button:active,
+.level-button:focus-visible, 
+.level-button:-moz-focusring,
+.level-button:hover {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-decoration: none !important;
+  -webkit-appearance: none;
+  transform: none !important;
+}
+
+.level-button.unlocked {
+  background-image: url('../assets/level-unlocked.png');
+}
+
+.level-button.unlocked:hover {
+  box-shadow: none;
+  transform: none !important;
+}
+
+.level-button.unlocked:focus,
+.level-button.unlocked:active,
+.level-button.unlocked:focus-visible {
+  outline: none !important;
+  background-image: url('../assets/level-unlocked.png');
+  box-shadow: none !important;
+  border: none !important;
+  opacity: 1;
+  transform: none !important;
+}
+
+.level-button.locked {
+  background-image: url('../assets/level-locked.png');
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+.level-button.completed {
+  background-color: transparent;
+}
+
+.level-number {
+  position: absolute;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  color: white;
+  font-weight: bold;
+  font-size: 3.2rem;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  border: none;
+  top: 0;
+  left: 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.page-info {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.page-button {
+  padding: 10px 20px;
+  background-color: rgba(74, 137, 220, 0.9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.page-button:hover:not(:disabled) {
+  background-color: rgba(58, 107, 199, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.page-button:disabled {
+  background-color: rgba(176, 190, 197, 0.9);
+  cursor: not-allowed;
+}
+
+/* 页面指示器样式 */
+.page-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.page-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-dot.active {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* 适配大屏幕 */
+@media (min-width: 1921px) {
+  .level-selector {
+    max-width: 1500px;
+    margin: 320px 0 40px 0;
+    padding: 30px;
+  }
+  
+  .level-title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+  }
+  
+  .levels-container {
+    grid-template-columns: repeat(7, 170px); /* 保持一行7个 */
+    gap: 36px;
+  }
+  
+  .level-button {
+    width: 170px;
+    height: 170px;
+    font-size: 2rem;
+    border-radius: 0;
+    box-shadow: none;
+    background-size: contain;
+  }
+  
+  .level-number {
+    font-size: 4.5rem;
+  }
+  
+  .page-info {
+    font-size: 1.4rem;
+  }
+  
+  .page-button {
+    padding: 14px 28px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+  }
+  
+  .page-dot {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .page-dot.active {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* 适配超宽屏幕，如2240x1552 */
+@media (min-width: 2200px) {
+  .level-selector {
+    max-width: 1800px;
+    margin: 500px 0 60px 0;
+    padding: 40px;
+  }
+  
+  .level-title {
+    font-size: 3rem;
+    margin-bottom: 50px;
+  }
+  
+  .levels-container {
+    grid-template-columns: repeat(7, 200px); /* 保持一行7个 */
+    gap: 40px;
+  }
+  
+  .level-button {
+    width: 200px;
+    height: 200px;
+    font-size: 2.4rem;
+    border-radius: 0;
+    box-shadow: none;
+    background-size: contain;
+  }
+  
+  .level-number {
+    font-size: 5.2rem;
+  }
+  
+  .page-info {
+    font-size: 1.6rem;
+  }
+  
+  .page-button {
+    padding: 16px 32px;
+    font-size: 1.4rem;
+    border-radius: 14px;
+  }
+  
+  .page-dot {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .page-dot.active {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* 响应式设计 - 中等屏幕 */
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .levels-container {
+    grid-template-columns: repeat(7, 120px); /* 保持一行7个，但略微缩小 */
+    gap: 20px;
+  }
+  
+  .level-button {
+    width: 120px;
+    height: 120px;
+    background-size: contain;
+  }
+  
+  .level-number {
+    font-size: 2.8rem;
+  }
+}
+
+/* 响应式设计 - 平板和较小屏幕 */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .levels-container {
+    grid-template-columns: repeat(7, 100px); /* 保持一行7个，但进一步缩小 */
+    gap: 15px;
+  }
+  
+  .level-button {
+    width: 100px;
+    height: 100px;
+    font-size: 1.3rem;
+    background-size: contain;
+  }
+  
+  .level-number {
+    font-size: 2.5rem;
+  }
+}
+
+/* 响应式设计 - 手机横屏 */
+@media (max-width: 767px) and (min-width: 600px) {
+  .level-selector {
+    padding: 15px;
+    margin: 180px 0 20px 0;
+  }
+  
+  .levels-container {
+    grid-template-columns: repeat(7, 80px); /* 保持一行7个，但更小 */
+    gap: 10px;
+  }
+  
+  .level-button {
+    width: 80px;
+    height: 80px;
+    font-size: 1.1rem;
+    box-shadow: none;
+    background-size: contain;
+  }
+  
+  .level-number {
+    font-size: 2.2rem;
+  }
+  
+  .page-dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .page-dot.active {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* 响应式设计 - 手机竖屏 */
+@media (max-width: 600px) {
+  .levels-container {
+    grid-template-columns: repeat(7, 60px); /* 极小屏幕也保持7个 */
+    gap: 8px;
+  }
+  
+  .level-button {
+    width: 60px;
+    height: 60px;
+    font-size: 1rem;
+    background-size: contain;
+  }
+  
+  .level-number {
+    font-size: 1.8rem;
+  }
+  
+  .pagination {
+    gap: 10px;
+  }
+  
+  .page-button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .page-dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .page-dot.active {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.loading-message {
+  text-align: center;
+  padding: 30px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 添加全局按钮样式重置 */
+button {
+  -webkit-tap-highlight-color: transparent;
+} 

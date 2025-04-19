@@ -1,0 +1,109 @@
+.game-controls {
+  width: 100%;
+  background-color: transparent;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: none;
+  margin-bottom: 20px;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.level-info {
+  margin-left: 80px;
+}
+
+.level-info h3 {
+  font-size: 1.5rem;
+  color: #4a89dc;
+  margin: 0;
+}
+
+.score-info p, .time-info p {
+  font-size: 1rem;
+  margin: 5px 0;
+  font-weight: 500;
+}
+
+.time-info p {
+  color: #e53935;
+  font-weight: 600;
+}
+
+/* 适配大屏幕 */
+@media (min-width: 1921px) {
+  .game-controls {
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: none;
+  }
+  
+  .game-info {
+    gap: 25px;
+  }
+  
+  .level-info {
+    margin-left: 80px;
+  }
+  
+  .level-info h3 {
+    font-size: 2rem;
+  }
+  
+  .score-info p, .time-info p {
+    font-size: 1.4rem;
+    margin: 8px 0;
+  }
+}
+
+/* 适配超宽屏幕，如2240x1552 */
+@media (min-width: 2200px) {
+  .game-controls {
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: none;
+  }
+  
+  .game-info {
+    gap: 30px;
+  }
+  
+  .level-info {
+    margin-left: 80px;
+  }
+  
+  .level-info h3 {
+    font-size: 2.4rem;
+  }
+  
+  .score-info p, .time-info p {
+    font-size: 1.8rem;
+    margin: 10px 0;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 767px) {
+  .game-controls {
+    padding: 15px;
+  }
+  
+  .level-info h3 {
+    font-size: 1.3rem;
+  }
+  
+  .score-info p, .time-info p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+} 

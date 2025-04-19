@@ -1,0 +1,100 @@
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.tutorial-modal {
+  background-color: white;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: modal-fade-in 0.3s ease-out;
+}
+
+.tutorial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  background-color: #4a89dc;
+  color: white;
+  border-radius: 10px 10px 0 0;
+}
+
+.tutorial-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: white;
+  padding: 0;
+  line-height: 1;
+}
+
+.tutorial-content {
+  padding: 20px;
+}
+
+.tutorial-content h3 {
+  color: #4a89dc;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.tutorial-content p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.tutorial-content ul {
+  padding-left: 20px;
+}
+
+.tutorial-content li {
+  margin-bottom: 8px;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tutorial-modal {
+    width: 90%;
+  }
+  
+  .tutorial-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .tutorial-content {
+    padding: 15px;
+  }
+} 

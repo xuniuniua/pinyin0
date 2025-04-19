@@ -1,0 +1,145 @@
+.game-page {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 添加背景图片 */
+.game-page::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/game-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1.0;
+  z-index: -1;
+}
+
+.game-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.game-left-section {
+  flex: 1;
+  max-width: 500px;
+  background-color: transparent;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: none;
+  margin-top: 80px;
+}
+
+.game-right-section {
+  width: 300px;
+  margin-top: 150px;
+}
+
+/* 适配大屏幕 */
+@media (min-width: 1921px) {
+  .game-page {
+    max-width: 1600px;
+    padding: 30px;
+  }
+  
+  .game-content {
+    gap: 40px;
+    margin: 30px 0;
+  }
+  
+  .game-left-section {
+    max-width: 800px;
+    padding: 25px;
+    margin-top: 120px;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  
+  .game-right-section {
+    width: 400px;
+    margin-top: 220px;
+  }
+}
+
+/* 适配超宽屏幕，如2240x1552 */
+@media (min-width: 2200px) {
+  .game-page {
+    max-width: 1900px;
+    padding: 40px;
+  }
+  
+  .game-content {
+    gap: 60px;
+    margin: 40px 0;
+    justify-content: flex-start;
+  }
+  
+  .game-left-section {
+    max-width: 1080px;
+    padding: 30px;
+    margin-top: 150px;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  
+  .game-right-section {
+    width: 500px;
+    margin-top: 330px;
+    margin-left: 800px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .game-page {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 900px) {
+  .game-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .game-left-section, .game-right-section {
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .game-left-section {
+    margin-top: 60px;
+  }
+  
+  .game-right-section {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .game-page {
+    padding: 10px;
+  }
+  
+  .game-left-section {
+    margin-top: 40px;
+  }
+  
+  .game-right-section {
+    margin-top: 20px;
+  }
+} 

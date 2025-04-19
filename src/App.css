@@ -1,38 +1,93 @@
-.App {
-  text-align: center;
+/* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f0f3f7;
+  color: #333;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.app-container {
+  max-width: 100%;
   min-height: 100vh;
+  margin: 0 auto;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: flex-start;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background-color: #4a89dc;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-color: #3a6bc7;
+  transform: translateY(-2px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+button:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 适配大屏幕 */
+@media (min-width: 1921px) {
+  .app-container {
+    padding: 30px;
+    max-width: 1800px;
+    margin: 0 auto;
   }
-  to {
-    transform: rotate(360deg);
+  
+  button {
+    padding: 12px 20px;
+    font-size: 18px;
+  }
+}
+
+/* 适配超宽屏幕，如2240x1552 */
+@media (min-width: 2200px) {
+  .app-container {
+    max-width: 2000px;
+    padding: 40px;
+  }
+  
+  button {
+    padding: 14px 24px;
+    font-size: 20px;
+  }
+}
+
+/* 适配移动设备 */
+@media (max-width: 767px) {
+  .app-container {
+    padding: 10px;
+  }
+  
+  button {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+}
+
+/* 适配安卓webview */
+@media (min-device-width: 320px) {
+  html {
+    -webkit-text-size-adjust: 100%;
   }
 }
