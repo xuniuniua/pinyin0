@@ -121,8 +121,12 @@ const safePlayAudio = (audio: HTMLAudioElement | null, name: string): void => {
     // 重置音频
     audio.currentTime = 0;
     
-    // 设置合适的音量
-    audio.volume = 0.2; // 降低音效音量
+    // 根据音效类型设置不同的音量
+    if (name === '击打音效') {
+      audio.volume = 1.0; // 击打音效音量降低到1.0，避免过高导致播放失败
+    } else {
+      audio.volume = 0.2; // 其他音效保持原来的音量
+    }
     
     // 播放音频
     const playPromise = audio.play();
@@ -154,6 +158,13 @@ export const playErrorSound = (): void => {
 
 // 播放击打地鼠的音效
 export const playHitSound = (): void => {
+  console.log('开始播放击打音效');
+  if (!hitAudio) {
+    console.warn('击打音效未初始化，尝试重新加载');
+    hitAudio = new Audio(hitSoundPath);
+    hitAudio.preload = 'auto';
+    hitAudio.load();
+  }
   safePlayAudio(hitAudio, '击打音效');
 };
 

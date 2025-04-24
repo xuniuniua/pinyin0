@@ -13,23 +13,8 @@ interface MoleProps {
 
 const Mole: React.FC<MoleProps> = ({ mole, onPlaySound }) => {
   const [showPinyin, setShowPinyin] = useState(false);
-  const [showFlash, setShowFlash] = useState(false);
   
-  // 监听地鼠被击中的状态变化
-  useEffect(() => {
-    if (mole.showHammer) {
-      // 当锤子出现时，延迟一点点显示闪光
-      const timer = setTimeout(() => {
-        setShowFlash(true);
-        // 闪光效果结束后重置
-        setTimeout(() => {
-          setShowFlash(false);
-        }, 300);
-      }, 300);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [mole.showHammer]);
+  // 监听地鼠被击中的状态变化，仅保留锤子动画效果
   
   // 动画变体 - 调整为从洞内出现的动画
   const variants = {
@@ -38,25 +23,25 @@ const Mole: React.FC<MoleProps> = ({ mole, onPlaySound }) => {
     exit: { y: 30, opacity: 0, transition: { duration: 0.3 } } // 退出时回到更浅的位置
   };
   
-  // 锤子动画变体 - 从右上角向左下方移动，更加明显的击打动作
+  // 锤子动画变体 - 更加夸张的动作
   const hammerVariants = {
-    hidden: { rotate: 45, y: -50, x: 50, opacity: 0 },
+    hidden: { rotate: 45, y: -60, x: 60, opacity: 0 },
     visible: { 
-      rotate: -30, // 增大旋转角度，使动作更明显
+      rotate: -40, // 增大旋转角度，使动作更加夸张
       y: 0, 
       x: 0, 
       opacity: 1, 
       transition: { 
-        duration: 0.2,
+        duration: 0.15, // 缩短动画时间，让动作更加迅速
         type: "spring",
-        stiffness: 700,
-        damping: 20
+        stiffness: 800, // 增加弹簧刚度
+        damping: 15  // 减少阻尼，让动作更加有力
       } 
     },
     exit: { 
       rotate: 45, 
-      y: -50, 
-      x: 50, 
+      y: -60, 
+      x: 60, 
       opacity: 0, 
       transition: { duration: 0.2 } 
     }
@@ -81,9 +66,6 @@ const Mole: React.FC<MoleProps> = ({ mole, onPlaySound }) => {
   return (
     <div className="mole-container">
       <img src={holeImg} alt="洞" className="mole-hole-img" />
-      
-      {/* 闪光效果 */}
-      <div className={`hit-flash ${showFlash ? 'active' : ''}`}></div>
       
       <AnimatePresence>
         {mole.isActive && (

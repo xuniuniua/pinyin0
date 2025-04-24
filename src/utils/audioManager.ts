@@ -13,7 +13,7 @@ class AudioManager {
   private wasBackgroundPlaying: boolean = false;
   private backgroundState: AudioState = {
     isPlaying: false,
-    volume: 0.1,
+    volume: 0.25,
     currentTime: 0
   };
   private isMuted: boolean = false;

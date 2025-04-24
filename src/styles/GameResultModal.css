@@ -13,21 +13,12 @@
   border-radius: 20px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s, visibility 0.3s;
+  transition: none;
 }
 
 .result-overlay.visible {
   opacity: 1;
   visibility: visible;
-}
-
-@keyframes overlayFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .result-modal {
@@ -37,22 +28,11 @@
   border-radius: 16px;
   overflow: hidden;
   box-shadow: none;
-  animation: modalFadeIn 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  animation: none;
   transform-origin: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
 }
 
 .result-image-container {

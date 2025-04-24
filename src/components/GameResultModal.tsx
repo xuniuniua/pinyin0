@@ -60,16 +60,19 @@ const GameResultModal: React.FC<GameResultModalProps> = ({
     };
   }, [isVisible, isSuccess]);
 
+  // 如果不可见，直接返回null而不是隐藏元素
+  if (!isVisible) {
+    return null;
+  }
+
   // 下一关按钮处理函数
   const handleNextLevel = () => {
-    // 关闭当前模态窗
-    onClose();
     // 调用外部传入的下一关处理函数
     onNextLevel();
   };
 
   return (
-    <div className={`result-overlay ${isVisible ? 'visible' : ''}`} onClick={onClose}>
+    <div className="result-overlay visible" onClick={onClose}>
       <div className="result-modal" onClick={e => e.stopPropagation()}>
         <div className="result-image-container">
           <img 

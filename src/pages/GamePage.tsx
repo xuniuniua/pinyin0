@@ -168,6 +168,7 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
 
     if (hitMoleIndex !== -1) {
       // 播放击打音效
+      console.log('匹配到正确拼音，准备播放击打音效');
       playHitSound();
       
       // 设置显示锤子
@@ -182,12 +183,21 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
         // 播放命中地鼠的汉字读音
         playCharacterSound(moles[hitMoleIndex].character.char);
         
-        // 命中地鼠
+        // 命中地鼠，先设置为击中状态但保持活跃
         setMoles(prev => 
           prev.map((mole, index) => 
-            index === hitMoleIndex ? { ...mole, isHit: true, isActive: false, showHammer: false } : mole
+            index === hitMoleIndex ? { ...mole, isHit: true, showHammer: false } : mole
           )
         );
+        
+        // 等待击中动画播放完毕后再设置为非活跃
+        setTimeout(() => {
+          setMoles(prev => 
+            prev.map((mole, index) => 
+              index === hitMoleIndex ? { ...mole, isActive: false } : mole
+            )
+          );
+        }, 500); // 等待击中动画完成
         
         setScore(prev => {
           const newScore = prev + 1;
