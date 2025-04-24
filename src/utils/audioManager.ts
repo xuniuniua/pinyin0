@@ -197,7 +197,11 @@ class AudioManager {
       return;
     }
     
-    if (!this.backgroundAudio.paused) {
+    // 检查音乐是否正在播放
+    const isPlaying = !this.backgroundAudio.paused;
+    
+    // 如果正在播放，则记录状态并暂停
+    if (isPlaying) {
       // 保存当前状态
       this.wasBackgroundPlaying = true;
       this.backgroundState.currentTime = this.backgroundAudio.currentTime;
@@ -206,10 +210,11 @@ class AudioManager {
       // 暂停播放
       this.backgroundAudio.pause();
       this.backgroundState.isPlaying = false;
-      console.log('背景音乐已暂停');
+      console.log('背景音乐已暂停，保存了播放状态');
     } else {
-      this.wasBackgroundPlaying = false;
-      console.log('背景音乐已经是暂停状态');
+      // 即使已经是暂停状态，也设置标记为true，以便恢复时尝试播放
+      this.wasBackgroundPlaying = true;
+      console.log('背景音乐已经是暂停状态，但仍标记为需要恢复');
     }
   }
 
@@ -217,24 +222,34 @@ class AudioManager {
   resumeBackgroundMusic(): void {
     if (!this.backgroundAudio) {
       console.log('背景音乐未初始化，无法恢复');
+      this.initBackgroundMusic(); // 尝试初始化
       return;
     }
     
-    if (this.wasBackgroundPlaying && !this.isMuted) {
-      // 恢复到之前的时间点
-      this.backgroundAudio.currentTime = this.backgroundState.currentTime;
-      this.backgroundAudio.volume = this.backgroundState.volume;
-      
-      // 避免重复播放
-      if (!this.backgroundAudio.paused) {
-        console.log('背景音乐已经在播放，无需恢复');
-        return;
-      }
-      
-      this.playBackgroundMusicInternal();
-    } else {
-      console.log('不恢复背景音乐（静音状态或未在播放）');
+    // 如果处于静音状态，不恢复播放
+    if (this.isMuted) {
+      console.log('背景音乐处于静音状态，不恢复播放');
+      return;
     }
+    
+    // 无论之前状态如何，都尝试播放音乐（只要不是静音状态）
+    console.log('尝试恢复背景音乐播放');
+    
+    // 确保设置正确的音量
+    this.backgroundAudio.volume = this.backgroundState.volume;
+    
+    // 如果已经在播放，则不重复播放
+    if (!this.backgroundAudio.paused) {
+      console.log('背景音乐已经在播放，无需恢复');
+      return;
+    }
+    
+    // 播放音乐
+    this.playBackgroundMusicInternal();
+    
+    // 重置标记
+    this.wasBackgroundPlaying = true;
+    this.backgroundState.isPlaying = true;
   }
 
   // 设置背景音乐音量

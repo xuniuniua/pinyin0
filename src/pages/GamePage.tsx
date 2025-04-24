@@ -219,11 +219,38 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
 
   // 组件挂载时，检查体力值并显示倒计时
   useEffect(() => {
+    // 检查是否处于关卡切换过程中
+    const isLevelTransitioning = window.sessionStorage.getItem('isLevelTransitioning') === 'true';
+    
+    // 清除任何现有的结果显示状态
+    setShowResultModal(false);
+    
     // 初始化音频系统，但不需要重新初始化背景音乐
     initAudioSystem();
     
     // 确保背景音乐已初始化（但不会重复创建）
     audioManager.initBackgroundMusic();
+    
+    // 如果正在关卡切换中，跳过初始状态设置，直接显示倒计时
+    if (isLevelTransitioning) {
+      console.log('检测到关卡切换状态，跳过初始化检查');
+      // 重置游戏状态
+      setIsGameActive(false);
+      setIsGameOver(false);
+      setIsGameWon(false);
+      setShowResultModal(false);
+      setShowPauseModal(false);
+      setScore(0);
+      setTime(level.timeLimit);
+      setMoles([]);
+      
+      // 直接显示倒计时
+      setShowCountdown(true);
+      
+      // 清除过渡状态
+      window.sessionStorage.removeItem('isLevelTransitioning');
+      return;
+    }
     
     // 只在组件挂载和关卡ID变化时检查体力值
     if (isStaminaEnough()) {
@@ -330,22 +357,32 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
       return;
     }
 
-    console.log(`进入下一关: ${level.id + 1}`);
-    
-    // 首先隐藏结果窗口并重置状态
-    setShowResultModal(false);
-    setIsGameWon(false);
+    // 先完全停止任何音效播放
     stopResultMusic();
     
-    // 增加延迟，确保状态更新后再导航
+    // 立即清除结果状态并隐藏所有弹窗
+    setShowResultModal(false);
+    setIsGameOver(false);
+    setIsGameWon(false);
+    
+    // 防止再次点击
+    const nextLevelId = level.id + 1;
+    console.log(`准备进入下一关: ${nextLevelId}`);
+    
+    // 添加导航前全局状态变量来标记正在进行关卡切换
+    // 这样可以防止在新页面初始化时显示任何结果弹窗
+    window.sessionStorage.setItem('isLevelTransitioning', 'true');
+    
+    // 设置较长的延迟确保UI和状态完全更新
     setTimeout(() => {
-      // 尝试加载下一关
-      const nextLevelId = level.id + 1;
-      
       // 导航到下一关
       navigate(`/game/${nextLevelId}`);
-      // 倒计时会在新页面的useEffect中自动触发
-    }, 100);
+      
+      // 导航后再次延迟清除过渡状态
+      setTimeout(() => {
+        window.sessionStorage.removeItem('isLevelTransitioning');
+      }, 500);
+    }, 200);
   };
 
   // 处理暂停游戏
@@ -362,10 +399,19 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
   // 处理继续游戏
   const handleContinueGame = () => {
     console.log('继续游戏');
+    
+    // 先隐藏暂停模态框
     setShowPauseModal(false);
     
-    // 恢复背景音乐播放
-    audioManager.resumeBackgroundMusic();
+    // 确保音频系统初始化
+    initAudioSystem();
+    
+    // 设置短延迟，确保UI更新后再恢复音乐和游戏状态
+    setTimeout(() => {
+      // 恢复背景音乐播放，加入额外延迟以确保DOM更新后再播放
+      audioManager.resumeBackgroundMusic();
+      console.log('已尝试恢复背景音乐播放');
+    }, 100);
   };
 
   // 处理页面可见性变化
