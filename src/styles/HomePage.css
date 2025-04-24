@@ -3,7 +3,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -11,6 +11,8 @@
   position: relative;
   z-index: 1;
   padding: 0;
+  overflow: hidden;
+  touch-action: none;
 }
 
 /* 添加背景图片 */
@@ -247,11 +249,11 @@
 }
 
 .help-button {
-  position: absolute;
-  left: 5px;
+  position: fixed;
+  left: 20px;
   bottom: 20px;
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   background: transparent;
   border: none;
   outline: none;
@@ -276,10 +278,10 @@
 /* 适配大屏幕 */
 @media (min-width: 1921px) {
   .help-button {
-    width: 100px;
-    height: 100px;
-    left: 7px;
-    bottom: 30px;
+    width: 50px;
+    height: 50px;
+    left: 20px;
+    bottom: 20px;
     outline: none;
     transition: none;
     -webkit-tap-highlight-color: transparent;
@@ -289,10 +291,10 @@
 /* 适配超宽屏幕，如2240x1552 */
 @media (min-width: 2200px) {
   .help-button {
-    width: 120px;
-    height: 120px;
-    left: 0px;
-    bottom: 40px;
+    width: 50px;
+    height: 50px;
+    left: 20px;
+    bottom: 20px;
     outline: none;
     transition: none;
     -webkit-tap-highlight-color: transparent;
@@ -302,10 +304,10 @@
 /* 响应式适配 - 平板 */
 @media (max-width: 1024px) and (min-width: 769px) {
   .help-button {
-    width: 70px;
-    height: 70px;
-    left: 4px;
-    bottom: 18px;
+    width: 50px;
+    height: 50px;
+    left: 20px;
+    bottom: 20px;
     outline: none;
     transition: none;
     -webkit-tap-highlight-color: transparent;
@@ -315,10 +317,10 @@
 /* 响应式适配 - 手机 */
 @media (max-width: 768px) {
   .help-button {
-    width: 65px;
-    height: 65px;
-    left: 3px;
-    bottom: 15px;
+    width: 50px;
+    height: 50px;
+    left: 20px;
+    bottom: 20px;
     outline: none;
     transition: none;
     -webkit-tap-highlight-color: transparent;
@@ -330,96 +332,8 @@
   .help-button {
     width: 50px;
     height: 50px;
-    left: 2px;
-    bottom: 10px;
-    outline: none;
-    transition: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-.sound-button {
-  position: absolute;
-  right: 5px;
-  bottom: 20px;
-  width: 70px;
-  height: 70px;
-  background: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  z-index: 100;
-  transition: none;
-  /* 确保按钮不影响关卡区域布局 */
-  pointer-events: auto;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.sound-button img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* 适配大屏幕 */
-@media (min-width: 1921px) {
-  .sound-button {
-    width: 100px;
-    height: 100px;
-    right: 7px;
-    bottom: 30px;
-    outline: none;
-    transition: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-/* 适配超宽屏幕，如2240x1552 */
-@media (min-width: 2200px) {
-  .sound-button {
-    width: 120px;
-    height: 120px;
-    right: 0px;
-    bottom: 40px;
-    outline: none;
-    transition: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-/* 响应式适配 - 平板 */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .sound-button {
-    width: 70px;
-    height: 70px;
-    right: 4px;
-    bottom: 18px;
-    outline: none;
-    transition: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-/* 响应式适配 - 手机 */
-@media (max-width: 768px) {
-  .sound-button {
-    width: 65px;
-    height: 65px;
-    right: 3px;
-    bottom: 15px;
-    outline: none;
-    transition: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-/* 响应式适配 - 小屏手机 */
-@media (max-width: 480px) {
-  .sound-button {
-    width: 50px;
-    height: 50px;
-    right: 2px;
-    bottom: 10px;
+    left: 20px;
+    bottom: 20px;
     outline: none;
     transition: none;
     -webkit-tap-highlight-color: transparent;

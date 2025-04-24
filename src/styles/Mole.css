@@ -1,53 +1,127 @@
 .mole-container {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 130px; /* 162.6 * 0.8 ≈ 130 */
+  height: 48px; /* 60.2 * 0.8 ≈ 48 */
+  overflow: visible; /* 允许内容溢出容器 */
+  /* 防止触屏设备上的选择高亮 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .mole-hole-img {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 130px; /* 162.6 * 0.8 ≈ 130 */
+  height: 48px; /* 60.2 * 0.8 ≈ 48 */
   object-fit: contain;
   z-index: 0;
 }
 
 .mole {
   position: absolute;
-  bottom: 0;
+  top: -92px; /* -115 * 0.8 = -92 */
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 120px; /* 150 * 0.8 = 120 */
+  height: 120px; /* 150 * 0.8 = 120 */
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  cursor: pointer; /* 添加指针样式表示可点击 */
+  /* 防止触屏设备上的选择高亮 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 .mole-img {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 120px; /* 150 * 0.8 = 120 */
+  height: 120px; /* 150 * 0.8 = 120 */
   object-fit: contain;
+  bottom: 0;
+  left: 5px; /* 6.3 * 0.8 = 5.04 ≈ 5 */
   z-index: 1;
+  /* 防止触屏设备上的选择高亮 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  pointer-events: none;
 }
 
 .mole-character {
-  position: relative;
-  font-size: 2.5rem;
+  position: absolute;
+  font-size: 1.76rem; /* 2.2 * 0.8 = 1.76 */
   font-weight: bold;
   color: #ffffff;
   text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
-  margin-bottom: 10px;
   user-select: none;
   z-index: 2;
+  /* 调整字符位置，使其位于地鼠中央 */
+  bottom: 18px; /* 23 * 0.8 = 18.4 ≈ 18 */
+  left: calc(50% + 4px); /* 5 * 0.8 = 4 */
+  transform: translateX(-50%);
+  /* 防止触屏设备上的选择高亮 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
+
+/* 锤子样式 */
+.hammer {
+  position: absolute;
+  top: -120px; /* 向上移动，位于地鼠脑袋上方 */
+  right: 0px; /* 从20px改为0px，向右移动20px */
+  width: 60px; /* 修改为60px */
+  height: 60px; /* 修改为60px */
+  z-index: 20;
+  transform-origin: bottom left; /* 改为左下角为旋转原点 */
+  pointer-events: none;
+}
+
+.hammer-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 拼音气泡样式 */
+.pinyin-bubble {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  color: #ff6b6b;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* 气泡尾巴 */
+.pinyin-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #ffffff;
 }
 
 .mole.hit {
-  animation: hit 0.3s ease-out forwards;
+  animation: hitEffect 0.5s ease-out forwards;
 }
 
 @keyframes hit {
@@ -56,8 +130,73 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(100%) scale(0.5);
+    transform: translateY(80px) scale(0.5);
     opacity: 0;
+  }
+}
+
+/* 新增地鼠被击中的动效 */
+@keyframes hitEffect {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    filter: brightness(1);
+  }
+  10% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    filter: brightness(1.5) contrast(1.3); /* 添加闪光效果 */
+  }
+  20% {
+    transform: translateY(5px) scale(1.1, 0.9) rotate(-5deg);
+    filter: brightness(1.3) contrast(1.2);
+  }
+  40% {
+    transform: translateY(0) scale(0.95, 1.05) rotate(5deg);
+    filter: brightness(1.3) contrast(1.2);
+  }
+  60% {
+    transform: translateY(3px) scale(1.05, 0.95) rotate(-3deg);
+    filter: brightness(1.2) contrast(1.1);
+  }
+  80% {
+    transform: translateY(0) scale(1, 1) rotate(0deg);
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: translateY(80px) scale(0.5);
+    opacity: 0;
+    filter: brightness(1);
+  }
+}
+
+/* 添加击打闪光效果 */
+.hit-flash {
+  position: absolute;
+  top: -80px;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 15;
+}
+
+.mole-container .hit-flash.active {
+  animation: flashEffect 0.3s ease-out forwards;
+}
+
+@keyframes flashEffect {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
   }
 }
 
@@ -66,10 +205,24 @@
   .mole-character {
     font-size: 2rem;
   }
+  
+  .hammer {
+    width: 60px;
+    height: 60px;
+    top: -110px; /* 适应中等屏幕的锤子位置 */
+    right: 0px; /* 向右移动，与主样式保持一致 */
+  }
 }
 
 @media (max-width: 480px) {
   .mole-character {
     font-size: 1.5rem;
+  }
+  
+  .hammer {
+    width: 50px;
+    height: 50px;
+    top: -100px; /* 适应小屏幕的锤子位置 */
+    right: 0px; /* 向右移动，与主样式保持一致 */
   }
 } 

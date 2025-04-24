@@ -38,12 +38,14 @@ const GameControls: React.FC<GameControlsProps> = ({
         <div className="level-info">
           <h3>关卡 {currentLevel.id}</h3>
         </div>
-        <div className="score-info">
-          <p>目标分数: {currentLevel.targetScore}</p>
-          <p>当前分数: {score}</p>
-        </div>
         <div className="time-info">
           <p>剩余时间: {formatTime(time)}</p>
+        </div>
+        <div className="score-info">
+          <p>目标分数: {currentLevel.targetScore}</p>
+        </div>
+        <div className="current-score-info">
+          <p>当前分数: {score}</p>
         </div>
       </div>
     </div>

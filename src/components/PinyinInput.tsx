@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../styles/PinyinInput.css';
 
 interface PinyinInputProps {
-  onPinyinSubmit: (pinyin: string) => void;
+  onPinyinSubmit: (pinyin: string) => boolean;
   isGameActive: boolean;
 }
 
 const PinyinInput: React.FC<PinyinInputProps> = ({ onPinyinSubmit, isGameActive }) => {
   const [input, setInput] = useState<string>('');
+  const [showError, setShowError] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // 自动聚焦输入框
@@ -23,10 +24,39 @@ const PinyinInput: React.FC<PinyinInputProps> = ({ onPinyinSubmit, isGameActive 
     setInput(value);
   };
 
+  const handleSubmit = () => {
+    if (input.trim() === '') return;
+    
+    try {
+      // 尝试提交拼音，获取结果
+      const success = onPinyinSubmit(input.trim());
+      
+      // 重置输入框
+      setInput('');
+      
+      // 如果输入错误，显示错误提示
+      if (success === false) {
+        setShowError(true);
+        
+        // 震动效果
+        if (inputRef.current) {
+          inputRef.current.classList.add('shake');
+          setTimeout(() => {
+            if (inputRef.current) {
+              inputRef.current.classList.remove('shake');
+            }
+            setShowError(false);
+          }, 500);
+        }
+      }
+    } catch (error) {
+      console.error('提交拼音时出错:', error);
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && input.trim() !== '') {
-      onPinyinSubmit(input.trim());
-      setInput('');
+      handleSubmit();
     }
   };
 
@@ -38,24 +68,12 @@ const PinyinInput: React.FC<PinyinInputProps> = ({ onPinyinSubmit, isGameActive 
         value={input}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        placeholder="输入拼音..."
+        placeholder="输入拼音后按回车"
         disabled={!isGameActive}
-        className="pinyin-input"
+        className={`pinyin-input ${showError ? 'error' : ''}`}
         autoComplete="off"
         autoCapitalize="none"
       />
-      <button 
-        onClick={() => {
-          if (input.trim() !== '') {
-            onPinyinSubmit(input.trim());
-            setInput('');
-          }
-        }}
-        disabled={!isGameActive || input.trim() === ''}
-        className="submit-button"
-      >
-        提交
-      </button>
     </div>
   );
 };

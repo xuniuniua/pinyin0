@@ -1,0 +1,177 @@
+.pause-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.pause-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pause-modal {
+  position: relative;
+  width: 320px;
+  max-width: 85%;
+  min-height: 230px;
+  background-color: #f0f8ff;
+  border-radius: 20px;
+  padding: 20px 15px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.pause-overlay.visible .pause-modal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.close-button-container {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  width: 28px;
+  height: 28px;
+}
+
+.close-button {
+  width: 28px;
+  height: 28px;
+  background-color: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #8B5A2B;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.close-button:hover {
+  color: #b06b2c;
+}
+
+.close-button:focus {
+  outline: none;
+  background-color: transparent;
+}
+
+/* 这个类完全移除点击和触摸时的所有视觉效果 */
+.no-highlight {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  outline: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+.no-highlight:focus, 
+.no-highlight:active, 
+.no-highlight:hover {
+  outline: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.close-button::-moz-focus-inner {
+  border: 0;
+}
+
+.pause-title {
+  font-size: 36px;
+  color: #8B5A2B;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.pause-level {
+  font-size: 24px;
+  color: #666;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.pause-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  margin-bottom: 5px;
+  align-items: center;
+}
+
+.pause-modal button.continue-button,
+.pause-modal button.home-button {
+  width: 200px;
+  height: 42px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  box-shadow: none;
+  /* 防止继承或覆盖 */
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: normal;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.pause-modal button.continue-button {
+  background-color: #CA802C; /* 修改为新的棕色 */
+  color: white; /* 修改为白色 */
+}
+
+.pause-modal button.home-button {
+  background-color: #FFECC6; /* 新的米黄色 */
+  color: #8B5A2B;
+  border: none; /* 移除边框 */
+}
+
+.pause-modal button.continue-button:hover,
+.pause-modal button.home-button:hover {
+  opacity: 0.9;
+  transform: none; /* 移除悬浮时的上移效果，保持扁平 */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 

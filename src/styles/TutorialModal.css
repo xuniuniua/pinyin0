@@ -82,19 +82,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .tutorial-modal {
-    width: 90%;
-  }
-  
-  .tutorial-header h2 {
-    font-size: 1.3rem;
-  }
-  
-  .tutorial-content {
-    padding: 15px;
-  }
 } 

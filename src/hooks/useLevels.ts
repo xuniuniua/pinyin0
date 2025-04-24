@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Level } from '../types/game';
 
 // 初始关卡设置
@@ -50,7 +50,7 @@ const initialLevels: Level[] = [
 // 尝试从localStorage中获取数据的函数
 const getSavedLevels = (): Level[] => {
   try {
-    const savedLevels = localStorage.getItem('pinyinGameLevels');
+    const savedLevels = localStorage.getItem('moleGameLevels');
     if (savedLevels) {
       return JSON.parse(savedLevels);
     }
@@ -69,46 +69,55 @@ export const useLevels = () => {
     if (levels.length > 0) {
       try {
         console.log('保存关卡数据到本地存储:', levels);
-        localStorage.setItem('pinyinGameLevels', JSON.stringify(levels));
+        localStorage.setItem('moleGameLevels', JSON.stringify(levels));
       } catch (error) {
         console.error('保存关卡数据出错:', error);
       }
     }
   }, [levels]);
 
-  // 完成关卡并解锁下一关
-  const completeLevel = (levelId: number) => {
-    console.log('完成关卡:', levelId);
-    setLevels(prevLevels => {
-      const newLevels = [...prevLevels];
-      const completedLevelIndex = newLevels.findIndex(level => level.id === levelId);
-      
-      if (completedLevelIndex !== -1) {
-        // 将当前关卡标记为已完成
-        newLevels[completedLevelIndex] = {
-          ...newLevels[completedLevelIndex],
-          isCompleted: true
-        };
-        
-        // 解锁下一关
-        if (completedLevelIndex < newLevels.length - 1) {
-          newLevels[completedLevelIndex + 1] = {
-            ...newLevels[completedLevelIndex + 1],
-            isLocked: false
-          };
-        }
-      }
-      
-      return newLevels;
-    });
+  // 将关卡数据保存到本地存储
+  const saveLevelsToLocalStorage = (levels: Level[]) => {
+    try {
+      localStorage.setItem('moleGameLevels', JSON.stringify(levels));
+      // 只在保存失败时记录日志
+    } catch (error) {
+      console.log('保存关卡数据失败:', error);
+    }
   };
 
-  // 重置所有关卡进度
-  const resetLevels = () => {
+  // 完成关卡
+  const completeLevel = useCallback((levelId: number) => {
+    console.log(`完成关卡: ${levelId}`);
+    
+    setLevels(prevLevels => {
+      // 更新完成的关卡
+      const updatedLevels = prevLevels.map(level => {
+        if (level.id === levelId) {
+          return { ...level, isCompleted: true };
+        }
+        // 解锁下一关
+        if (level.id === levelId + 1) {
+          return { ...level, isLocked: false };
+        }
+        return level;
+      });
+      
+      // 保存更新后的关卡数据
+      saveLevelsToLocalStorage(updatedLevels);
+      
+      return updatedLevels;
+    });
+  }, []);
+  
+  // 重置关卡数据
+  const resetLevels = useCallback(() => {
     console.log('重置关卡数据');
-    setLevels(initialLevels);
-    localStorage.removeItem('pinyinGameLevels');
-  };
+    
+    const defaultLevels = initialLevels;
+    setLevels(defaultLevels);
+    saveLevelsToLocalStorage(defaultLevels);
+  }, []);
 
   return { levels, completeLevel, resetLevels };
 };

@@ -1,128 +1,77 @@
 .pinyin-input-container {
   display: flex;
-  width: 100%;
-  max-width: 500px;
-  margin: 20px 0;
-  gap: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(5px);
+  width: 416px; /* 固定宽度：480px - 64px (左右内边距) */
+  max-width: 416px;
+  margin: 0 auto 4px auto;
+  background-color: transparent;
+  border-radius: 16px;
+  padding: 12px 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  transform: rotate(0deg);
+  border: none;
+  position: relative;
+  box-sizing: border-box;
+  left: 10px; /* 向右移动10px */
 }
 
 .pinyin-input {
   flex-grow: 1;
-  padding: 12px 16px;
-  font-size: 18px;
-  border: 2px solid #4a89dc;
-  border-radius: 8px;
+  width: 100%;
+  max-width: 100%;
+  padding: 13px 16px;
+  font-size: 19px;
+  font-family: "Comic Sans MS", "Marker Felt", cursive;
+  border: 3px solid #CA802C;
+  border-radius: 20px;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.3s ease;
+  text-align: center;
+  background-color: rgba(255, 253, 231, 0.9);
+  color: #ff6b6b;
+  box-shadow: none;
+  letter-spacing: 1px;
+  transform: rotate(0deg);
+  box-sizing: border-box;
 }
 
 .pinyin-input:focus {
-  border-color: #3a6bc7;
-  box-shadow: 0 0 0 2px rgba(74, 137, 220, 0.3);
+  border-color: #CA802C;
+  background-color: rgba(255, 245, 210, 0.95);
+  box-shadow: none;
+  transform: scale(1.02);
 }
 
 .pinyin-input:disabled {
-  background-color: #f0f0f0;
-  border-color: #ccc;
+  background-color: #f5f5f5;
+  border-color: #ddd;
   color: #aaa;
+  box-shadow: none;
+  transform: none;
 }
 
-.submit-button {
-  padding: 12px 24px;
+.pinyin-input::placeholder {
+  color: #ffab40;
+  opacity: 0.8;
+  font-weight: bold;
   font-size: 18px;
-  background-color: #4a89dc;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-.submit-button:hover:not(:disabled) {
-  background-color: #3a6bc7;
+.pinyin-input.error {
+  border-color: #ff4d4d;
+  background-color: #fff0f0;
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  box-shadow: none;
 }
 
-.submit-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* 适配大屏幕 */
-@media (min-width: 1921px) {
-  .pinyin-input-container {
-    max-width: 800px;
-    margin: 30px 0;
-    gap: 15px;
-    border-radius: 12px;
-    padding: 20px;
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
   }
-  
-  .pinyin-input {
-    padding: 16px 24px;
-    font-size: 24px;
-    border: 3px solid #4a89dc;
-    border-radius: 12px;
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-8px);
   }
-  
-  .submit-button {
-    padding: 16px 32px;
-    font-size: 24px;
-    border-radius: 12px;
-  }
-}
-
-/* 适配超宽屏幕，如2240x1552 */
-@media (min-width: 2200px) {
-  .pinyin-input-container {
-    max-width: 1000px;
-    margin: 40px 0;
-    gap: 20px;
-    border-radius: 16px;
-    padding: 25px;
-  }
-  
-  .pinyin-input {
-    padding: 20px 30px;
-    font-size: 28px;
-    border: 4px solid #4a89dc;
-    border-radius: 16px;
-  }
-  
-  .pinyin-input:focus {
-    box-shadow: 0 0 0 3px rgba(74, 137, 220, 0.3);
-  }
-  
-  .submit-button {
-    padding: 20px 40px;
-    font-size: 28px;
-    border-radius: 16px;
-  }
-}
-
-/* 响应式设计 */
-@media (max-width: 767px) {
-  .pinyin-input {
-    padding: 10px 14px;
-    font-size: 16px;
-  }
-  
-  .submit-button {
-    padding: 10px 18px;
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .pinyin-input-container {
-    flex-direction: column;
-  }
-  
-  .pinyin-input, .submit-button {
-    width: 100%;
+  20%, 40%, 60%, 80% {
+    transform: translateX(8px);
   }
 } 

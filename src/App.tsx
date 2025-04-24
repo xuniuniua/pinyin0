@@ -13,14 +13,12 @@ const GameRoute = () => {
   // 查找指定关卡
   const level = levels.find(l => l.id === Number(levelId));
   
-  // 调试日志
-  console.log('路由参数:', levelId);
-  console.log('关卡列表:', levels);
-  console.log('找到的关卡:', level);
+  // 精简调试日志
+  console.log(`尝试加载关卡: ${levelId}`);
   
   // 如果关卡不存在或被锁定，重定向到主页
   if (!level || level.isLocked) {
-    console.log('关卡不存在或被锁定，重定向到主页');
+    console.log('关卡不可用，重定向到主页');
     return <Navigate to="/" replace />;
   }
   

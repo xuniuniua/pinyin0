@@ -1,0 +1,92 @@
+.toast-container {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  animation: toast-in 0.3s ease-out forwards;
+}
+
+.toast-message {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  animation: pulse 1s ease-in-out forwards;
+}
+
+/* 输入错误提示样式 - 显示在输入框上方 */
+.error-toast-container {
+  position: absolute;
+  bottom: 90px; /* 位于输入框上方 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  animation: toast-in 0.3s ease-out forwards;
+}
+
+.error-toast-message {
+  background-color: rgba(255, 132, 0, 0.9); /* 更温和的橙色背景 */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(255, 132, 0, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  animation: pulse 1s ease-in-out forwards;
+  white-space: nowrap;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 适配大屏幕 */
+@media (min-width: 1921px) {
+  .toast-message {
+    padding: 18px 36px;
+    font-size: 22px;
+    border-radius: 60px;
+  }
+}
+
+/* 适配超宽屏幕，如2240x1552 */
+@media (min-width: 2200px) {
+  .toast-container {
+    bottom: 50px;
+  }
+  
+  .toast-message {
+    padding: 22px 44px;
+    font-size: 26px;
+    border-radius: 70px;
+  }
+} 

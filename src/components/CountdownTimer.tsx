@@ -36,7 +36,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ onCountdownComplete }) 
   }, [onCountdownComplete]);
   
   return (
-    <div className="countdown-container">
+    <div className="countdown-timer-wrapper">
+      <div className="countdown-overlay"></div>
       <div className="countdown-number">{count}</div>
     </div>
   );

@@ -1,0 +1,77 @@
+.score-display-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 10;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+}
+
+.score-bubble {
+  background-color: rgba(207, 246, 255, 0.85);
+  border-radius: 20px;
+  padding: 4px 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+  backdrop-filter: blur(2px);
+}
+
+.score-label {
+  font-size: 20px;
+  font-weight: bold;
+  color: #CA802C;
+  margin-right: 5px;
+  font-family: sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.score-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #CA802C;
+  font-family: sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .score-display-container {
+    top: 15px;
+    left: 15px;
+  }
+  
+  .score-bubble {
+    padding: 3px 12px;
+    min-width: 110px;
+  }
+  
+  .score-label, .score-value {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .score-display-container {
+    top: 10px;
+    left: 10px;
+  }
+  
+  .score-bubble {
+    padding: 3px 10px;
+    min-width: 90px;
+  }
+  
+  .score-label, .score-value {
+    font-size: 16px;
+  }
+} 

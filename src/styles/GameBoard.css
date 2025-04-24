@@ -2,68 +2,43 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 20px;
+  gap: 48px;
   background-color: transparent;
-  padding: 20px;
+  padding: 32px 32px 0 32px;
   border-radius: 16px;
   box-shadow: none;
-  margin: 20px 0;
-  width: 100%;
-  max-width: 500px;
+  margin: 0 auto;
+  width: 480px;
+  height: 480px;
+  max-width: 480px;
   border: none;
+  place-items: center;
+  margin-bottom: -10px;
+  box-sizing: border-box; /* 确保内边距包含在总宽度内 */
+  position: relative;
+  left: -30px; /* 从-15px增加到-30px，总共向左移动30px */
+  /* 防止触屏设备上的选择高亮 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .mole-position {
-  aspect-ratio: 1/1;
+  aspect-ratio: 162.6/60.2;
+  width: 130px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  /* 防止触屏设备上的选择高亮 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .mole-hole-img {
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 48px;
   object-fit: contain;
-}
-
-/* 适配大屏幕 */
-@media (min-width: 1921px) {
-  .game-board {
-    max-width: 800px;
-    gap: 30px;
-    padding: 30px;
-    border-radius: 24px;
-    box-shadow: none;
-    border: none;
-  }
-}
-
-/* 适配超宽屏幕，如2240x1552 */
-@media (min-width: 2200px) {
-  .game-board {
-    max-width: none;
-    width: 1000px;
-    height: 900px;
-    gap: 40px;
-    padding: 40px;
-    border-radius: 30px;
-    box-shadow: none;
-    border: none;
-  }
-}
-
-/* 响应式设计 */
-@media (max-width: 767px) {
-  .game-board {
-    gap: 10px;
-    padding: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .game-board {
-    gap: 8px;
-    padding: 10px;
-  }
 } 

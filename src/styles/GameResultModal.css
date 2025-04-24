@@ -1,5 +1,5 @@
 .result-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -10,7 +10,15 @@
   align-items: center;
   z-index: 1000;
   backdrop-filter: blur(4px);
-  animation: overlayFadeIn 0.3s ease-out;
+  border-radius: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.result-overlay.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 @keyframes overlayFadeIn {
@@ -24,7 +32,7 @@
 
 .result-modal {
   width: 85%;
-  max-width: 400px;
+  max-width: 350px;
   background-color: transparent;
   border-radius: 16px;
   overflow: hidden;
@@ -55,8 +63,8 @@
 }
 
 .result-image {
-  width: 378.27px;
-  height: 273.58px;
+  width: 300px;
+  height: 220px;
   max-width: 100%;
   object-fit: contain;
 }
@@ -73,160 +81,60 @@
   gap: 15px;
 }
 
-.home-button, .retry-button, .next-button {
+/* 使用更高优先级的选择器来覆盖全局样式 */
+.result-modal button.home-button,
+.result-modal button.retry-button,
+.result-modal button.next-button {
+  /* 重置所有默认按钮样式 */
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  /* 设置统一样式 */
   padding: 12px 30px;
   border: none;
   border-radius: 50px;
   width: 45%;
+  height: 45px;
   font-weight: bold;
   color: #333;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  /* 防止继承或覆盖 */
+  text-align: center;
+  line-height: normal;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-.home-button {
+.result-modal button.home-button {
   background-color: #FAF3E0;
   color: #333;
 }
 
-.retry-button, .next-button {
+.result-modal button.retry-button,
+.result-modal button.next-button {
   background-color: #D49A6A;
   color: white;
 }
 
-.home-button:hover {
+.result-modal button.home-button:hover {
   background-color: #F5E9CB;
 }
 
-.retry-button:hover, .next-button:hover {
+.result-modal button.retry-button:hover,
+.result-modal button.next-button:hover {
   background-color: #C88956;
 }
 
-.home-button:active, .retry-button:active, .next-button:active {
+.result-modal button.home-button:active,
+.result-modal button.retry-button:active,
+.result-modal button.next-button:active {
   transform: translateY(1px);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* 大屏幕适配 */
-@media (min-width: 1024px) {
-  .result-modal {
-    max-width: 480px;
-  }
-  
-  .result-image {
-    width: 420px;
-    height: 304px;
-  }
-  
-  .home-button, .retry-button, .next-button {
-    padding: 14px 34px;
-    font-size: 18px;
-  }
-}
-
-/* 更大屏幕适配（平板横屏和小型桌面） */
-@media (min-width: 1366px) {
-  .result-modal {
-    max-width: 550px;
-  }
-  
-  .result-image {
-    width: 480px;
-    height: 347px;
-  }
-  
-  .home-button, .retry-button, .next-button {
-    padding: 16px 38px;
-    font-size: 20px;
-    border-radius: 60px;
-  }
-}
-
-/* 超宽屏幕适配，特别是2240*1552的屏幕 */
-@media (min-width: 1921px) {
-  .result-modal {
-    max-width: 700px;
-  }
-  
-  .result-image {
-    width: 567px;
-    height: 410px;
-  }
-  
-  .result-content {
-    padding: 30px 40px 40px;
-  }
-  
-  .result-buttons {
-    gap: 30px;
-  }
-  
-  .home-button, .retry-button, .next-button {
-    padding: 18px 40px;
-    font-size: 22px;
-    border-radius: 70px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-  }
-}
-
-/* 特别是针对2240*1552分辨率的屏幕 */
-@media (min-width: 2200px) {
-  .result-modal {
-    max-width: 800px;
-  }
-  
-  .result-image {
-    width: 680px;
-    height: 492px;
-  }
-  
-  .result-content {
-    padding: 35px 50px 50px;
-  }
-  
-  .home-button, .retry-button, .next-button {
-    padding: 20px 45px;
-    font-size: 24px;
-    border-radius: 80px;
-  }
-}
-
-/* 小屏幕适配 */
-@media (max-width: 480px) {
-  .result-modal {
-    width: 90%;
-  }
-  
-  .result-image {
-    width: 300px;
-    height: 217px;
-  }
-  
-  .home-button, .retry-button, .next-button {
-    padding: 10px 20px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 360px) {
-  .result-modal {
-    width: 95%;
-  }
-  
-  .result-image {
-    width: 260px;
-    height: 188px;
-  }
-  
-  .result-buttons {
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .home-button, .retry-button, .next-button {
-    width: 100%;
-    padding: 10px 15px;
-  }
 }

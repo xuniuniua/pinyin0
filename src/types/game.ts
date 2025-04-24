@@ -6,6 +6,7 @@ export interface Mole {
   position: number; // 0-8 表示在9个洞中的位置
   isActive: boolean;
   isHit: boolean;
+  showHammer?: boolean; // 是否显示锤子动画
 }
 
 export interface Level {

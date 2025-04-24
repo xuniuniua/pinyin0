@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试按钮样式</title>
+    <style>
+        body {
+            padding: 50px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .test-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* 全局按钮样式（模拟App.css） */
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            background-color: #4a89dc;
+            color: white;
+        }
+        
+        /* 结果模态框按钮样式（简化版）*/
+        .home-button, .retry-button, .next-button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            width: 45%;
+            height: 45px;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        
+        .home-button {
+            background-color: #FAF3E0;
+            color: #333;
+        }
+        
+        .retry-button, .next-button {
+            background-color: #D49A6A;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>默认按钮</h2>
+    <div class="test-container">
+        <button>普通按钮</button>
+    </div>
+    
+    <h2>结果模态框按钮</h2>
+    <div class="test-container" style="width: 400px; display: flex; justify-content: space-between;">
+        <button class="home-button">返回首页</button>
+        <button class="next-button">下一关</button>
+    </div>
+</body>
+</html> 

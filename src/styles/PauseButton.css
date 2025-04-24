@@ -1,0 +1,46 @@
+.pause-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: none;
+}
+
+.pause-button:hover {
+  transform: scale(1.1);
+  box-shadow: none;
+}
+
+.pause-button img {
+  width: 40px;
+  height: 40px;
+}
+
+/* 这个类完全移除点击和触摸时的所有视觉效果 */
+.no-highlight {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  outline: none !important;
+  background-image: none !important;
+}
+
+.no-highlight:focus, 
+.no-highlight:active, 
+.no-highlight:hover {
+  outline: none !important;
+  background-image: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+} 
