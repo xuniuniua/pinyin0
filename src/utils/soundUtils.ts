@@ -124,6 +124,8 @@ const safePlayAudio = (audio: HTMLAudioElement | null, name: string): void => {
     // 根据音效类型设置不同的音量
     if (name === '击打音效') {
       audio.volume = 1.0; // 击打音效音量降低到1.0，避免过高导致播放失败
+    } else if (name === '错误音效' || name === '成功音效' || name === '失败音效') {
+      audio.volume = 0.6; // 错误音效、成功音效和失败音效音量提高到0.6
     } else {
       audio.volume = 0.2; // 其他音效保持原来的音量
     }
@@ -153,6 +155,13 @@ const safePlayAudio = (audio: HTMLAudioElement | null, name: string): void => {
 
 // 播放错误音效
 export const playErrorSound = (): void => {
+  console.log('开始播放错误音效');
+  if (!errorAudio) {
+    console.warn('错误音效未初始化，尝试重新加载');
+    errorAudio = new Audio(errorSoundPath);
+    errorAudio.preload = 'auto';
+    errorAudio.load();
+  }
   safePlayAudio(errorAudio, '错误音效');
 };
 
@@ -192,10 +201,16 @@ export const playSuccessMusic = (): void => {
     audioManager.pauseBackgroundMusic();
     
     // 使用成功音效
-    if (successAudio) {
-      resultMusicPlayer = successAudio;
-      safePlayAudio(successAudio, '成功音效');
+    if (!successAudio) {
+      console.warn('成功音效未初始化，尝试重新加载');
+      successAudio = new Audio(successSoundPath);
+      successAudio.preload = 'auto';
+      successAudio.load();
     }
+    
+    console.log('开始播放成功音效');
+    resultMusicPlayer = successAudio;
+    safePlayAudio(successAudio, '成功音效');
   } catch (error) {
     console.error('播放成功音乐失败:', error);
   }
@@ -211,10 +226,16 @@ export const playFailMusic = (): void => {
     audioManager.pauseBackgroundMusic();
     
     // 使用失败音效
-    if (failAudio) {
-      resultMusicPlayer = failAudio;
-      safePlayAudio(failAudio, '失败音效');
+    if (!failAudio) {
+      console.warn('失败音效未初始化，尝试重新加载');
+      failAudio = new Audio(failSoundPath);
+      failAudio.preload = 'auto';
+      failAudio.load();
     }
+    
+    console.log('开始播放失败音效');
+    resultMusicPlayer = failAudio;
+    safePlayAudio(failAudio, '失败音效');
   } catch (error) {
     console.error('播放失败音乐失败:', error);
   }
