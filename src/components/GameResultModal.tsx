@@ -32,12 +32,19 @@ const GameResultModal: React.FC<GameResultModalProps> = ({
       // 禁止背景滚动
       document.body.style.overflow = 'hidden';
       
-      // 播放对应的背景音乐
-      if (isSuccess) {
-        playSuccessMusic();
-      } else {
-        playFailMusic();
-      }
+      // 清除任何可能正在播放的音效
+      stopResultMusic();
+      
+      // 延迟一点播放对应的背景音乐，确保UI已经完全更新
+      const timer = setTimeout(() => {
+        if (isSuccess) {
+          playSuccessMusic();
+        } else {
+          playFailMusic();
+        }
+      }, 50);
+      
+      return () => clearTimeout(timer);
     } else {
       // 恢复背景滚动
       document.body.style.overflow = 'auto';

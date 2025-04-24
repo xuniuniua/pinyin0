@@ -24,6 +24,7 @@ const GameRoute = () => {
   
   return (
     <GamePage 
+      key={`level-${level.id}`}
       level={level} 
       onCompleteLevel={completeLevel} 
     />

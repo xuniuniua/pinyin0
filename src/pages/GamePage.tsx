@@ -331,13 +331,21 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
     }
 
     console.log(`进入下一关: ${level.id + 1}`);
-    setShowResultModal(false);
-    // 尝试加载下一关
-    const nextLevelId = level.id + 1;
     
-    // 导航到下一关
-    navigate(`/game/${nextLevelId}`);
-    // 倒计时会在新页面的useEffect中自动触发
+    // 首先隐藏结果窗口并重置状态
+    setShowResultModal(false);
+    setIsGameWon(false);
+    stopResultMusic();
+    
+    // 增加延迟，确保状态更新后再导航
+    setTimeout(() => {
+      // 尝试加载下一关
+      const nextLevelId = level.id + 1;
+      
+      // 导航到下一关
+      navigate(`/game/${nextLevelId}`);
+      // 倒计时会在新页面的useEffect中自动触发
+    }, 100);
   };
 
   // 处理暂停游戏
