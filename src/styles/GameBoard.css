@@ -17,6 +17,7 @@
   box-sizing: border-box; /* 确保内边距包含在总宽度内 */
   position: relative;
   left: -30px; /* 从-15px增加到-30px，总共向左移动30px */
+  top: 20px; /* 向下移动20px */
   /* 防止触屏设备上的选择高亮 */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
