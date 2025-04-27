@@ -46,6 +46,8 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
   const [showResultModal, setShowResultModal] = useState<boolean>(false);
   const [showPauseModal, setShowPauseModal] = useState<boolean>(false);
   const [showErrorToast, setShowErrorToast] = useState<boolean>(false);
+  // 添加新的状态用于跟踪已经正确输入的汉字
+  const [hitCharacters, setHitCharacters] = useState<Set<string>>(new Set());
   const maxMoles = 50; // 每关50只地鼠
 
   // 开始游戏
@@ -64,12 +66,15 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
     setIsGameOver(false);
     setIsGameWon(false);
     setMoleCount(0);
+    // 重置已击中的汉字集合
+    setHitCharacters(new Set());
     
     // 确保结果音乐已停止
     stopResultMusic();
     
     // 确保背景音乐播放
     audioManager.resumeBackgroundMusic();
+    
   }, [level.timeLimit]);
 
   // 处理倒计时结束
@@ -114,7 +119,20 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
       return; // 没有可用位置，跳过
     }
 
-    const character = getRandomCharacter();
+    // 获取未被击中的字符
+    let character = getRandomCharacter();
+    // 尝试最多10次找到未被击中的字符，防止死循环
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    while (hitCharacters.has(character.char) && attempts < maxAttempts) {
+      character = getRandomCharacter();
+      attempts++;
+    }
+    
+    // 如果已经没有新的字符可选，则继续使用该字符
+    // 实际游戏中一般不会遇到这种情况，因为字符库足够大
+    
     const newMole: Mole = {
       id: Date.now(),
       character,
@@ -127,14 +145,26 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
     setMoleCount(prev => prev + 1);
 
     // 设置地鼠消失的定时器
+    // 根据关卡等级设置不同的地鼠显示时间
+    let moleShowDuration = 5500; // 1-8关的显示时间：5500毫秒
+    if (level.id >= 9 && level.id <= 16) {
+      moleShowDuration = 5000; // 9-16关的显示时间：5000毫秒
+    } else if (level.id >= 17 && level.id <= 24) {
+      moleShowDuration = 4500; // 17-24关的显示时间：4500毫秒
+    } else if (level.id >= 25 && level.id <= 32) {
+      moleShowDuration = 4000; // 25-32关的显示时间：4000毫秒
+    } else if (level.id >= 33) {
+      moleShowDuration = 3500; // 33-42关的显示时间：3500毫秒
+    }
+
     setTimeout(() => {
       setMoles(prev => 
         prev.map(mole => 
           mole.id === newMole.id ? { ...mole, isActive: false } : mole
         )
       );
-    }, 4000); // 4秒后地鼠消失
-  }, [getRandomCharacter, getRandomPosition, isGameActive, moleCount]);
+    }, moleShowDuration);
+  }, [getRandomCharacter, getRandomPosition, isGameActive, moleCount, level.id, hitCharacters]);
 
   // 结束游戏
   const endGame = useCallback((won: boolean) => {
@@ -197,15 +227,18 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
               index === hitMoleIndex ? { ...mole, isActive: false } : mole
             )
           );
-        }, 500); // 等待击中动画完成
+        }, 500);
         
         setScore(prev => {
-          const newScore = prev + 1;
+          const newScore = prev + 5; // 从1分改为5分
           
           // 检查是否达到目标分数
           if (newScore >= level.targetScore) {
             endGame(true);
           }
+          
+          // 将已击中的汉字添加到集合中
+          setHitCharacters(prev => new Set(prev).add(moles[hitMoleIndex].character.char));
           
           return newScore;
         });
@@ -291,14 +324,39 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
   useEffect(() => {
     if (!isGameActive || showPauseModal) return;
 
-    const moleInterval = setInterval(() => {
-      if (moleCount < maxMoles) {
+    // 根据关卡等级设置不同的地鼠出现间隔
+    let moleInterval = 4000; // 1-8关的出现间隔：4000毫秒
+    let simultaneousMoles = 1; // 1-8关的同时出现数量：1
+
+    if (level.id >= 9 && level.id <= 16) {
+      moleInterval = 4000; // 9-16关的出现间隔：4000毫秒
+      simultaneousMoles = 2; // 9-16关的同时出现数量：2
+    } else if (level.id >= 17 && level.id <= 24) {
+      moleInterval = 3500; // 17-24关的出现间隔：3500毫秒
+      simultaneousMoles = 2; // 17-24关的同时出现数量：2
+    } else if (level.id >= 25 && level.id <= 32) {
+      moleInterval = 3500; // 25-32关的出现间隔：3500毫秒
+      simultaneousMoles = 3; // 25-32关的同时出现数量：3
+    } else if (level.id >= 33 && level.id <= 40) {
+      moleInterval = 3000; // 33-40关的出现间隔：3000毫秒
+      simultaneousMoles = 3; // 33-40关的同时出现数量：3
+    } else if (level.id >= 41) {
+      moleInterval = 3000; // 41-42关的出现间隔：3000毫秒
+      simultaneousMoles = 4; // 41-42关的同时出现数量：4
+    }
+
+    // 检查当前活跃的地鼠数量是否已达到同时出现数量的上限
+    const checkAndCreateMole = () => {
+      const activeCount = moles.filter(mole => mole.isActive).length;
+      if (activeCount < simultaneousMoles && moleCount < maxMoles) {
         createMole();
       }
-    }, 1000); // 每秒尝试生成一个地鼠
+    };
 
-    return () => clearInterval(moleInterval);
-  }, [createMole, isGameActive, moleCount, showPauseModal]);
+    const interval = setInterval(checkAndCreateMole, moleInterval);
+
+    return () => clearInterval(interval);
+  }, [createMole, isGameActive, moleCount, showPauseModal, moles, level.id]);
 
   // 倒计时
   useEffect(() => {
@@ -320,6 +378,34 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
 
     return () => clearInterval(timerInterval);
   }, [endGame, isGameActive, level.targetScore, score, showPauseModal]);
+
+  // 初始地鼠生成
+  useEffect(() => {
+    // 当游戏开始时，生成初始地鼠
+    if (isGameActive && !showPauseModal) {
+      // 根据关卡级别设置初始地鼠数量
+      let initialMolesCount = 2; // 关卡1-10初始地鼠数量
+      
+      if (level.id >= 11 && level.id <= 20) {
+        initialMolesCount = 3; // 关卡11-20初始地鼠数量
+      } else if (level.id >= 21 && level.id <= 30) {
+        initialMolesCount = 4; // 关卡21-30初始地鼠数量
+      } else if (level.id >= 31) {
+        initialMolesCount = 5; // 关卡31-42初始地鼠数量
+      }
+      
+      console.log(`生成${initialMolesCount}个初始地鼠，关卡${level.id}`);
+      
+      // 创建指定数量的初始地鼠，延迟1秒让玩家准备
+      const timer = setTimeout(() => {
+        for (let i = 0; i < initialMolesCount; i++) {
+          createMole();
+        }
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isGameActive, showPauseModal, level.id, createMole]);
 
   // 处理游戏重新开始
   const handleRestartGame = () => {
@@ -471,6 +557,62 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
       window.removeEventListener('blur', handleBlur);
     };
   }, [isGameActive, showPauseModal, isGameOver]);
+
+  // 输入值发生变化时的处理函数
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    
+    if (value) {
+      // 查找是否有匹配的地鼠
+      const moleIndex = moles.findIndex(mole => 
+        mole.character.char === value && mole.isActive && !mole.isHit
+      );
+      
+      if (moleIndex !== -1) {
+        // 找到匹配的地鼠，在这里增加得分
+        playCharacterSound(moles[moleIndex].character.char);
+        setScore(prevScore => prevScore + 5);
+        
+        // 将已击中的汉字添加到集合中
+        setHitCharacters(prev => {
+          const newSet = new Set(prev);
+          newSet.add(moles[moleIndex].character.char);
+          return newSet;
+        });
+        
+        // 更新地鼠为被击中状态
+        const updatedMoles = [...moles];
+        updatedMoles[moleIndex] = {
+          ...updatedMoles[moleIndex],
+          isActive: false,
+          isHit: true,
+          showHammer: true // 显示锤子动画
+        };
+        
+        // 更新地鼠状态
+        setMoles(updatedMoles);
+        
+        // 在500毫秒后移除地鼠的isHit状态和锤子
+        setTimeout(() => {
+          setMoles(prevMoles => 
+            prevMoles.map(mole => 
+              mole.id === updatedMoles[moleIndex].id 
+                ? { ...mole, isHit: false, showHammer: false } 
+                : mole
+            )
+          );
+        }, 500);
+      } else {
+        // 没有找到匹配的地鼠，播放错误音效并显示错误提示
+        playErrorSound();
+        setShowErrorToast(true);
+        setTimeout(() => setShowErrorToast(false), 500);
+      }
+      
+      // 清空输入框
+      e.target.value = '';
+    }
+  };
 
   return (
     <div className="game-page">
