@@ -14,12 +14,16 @@ declare global {
  */
 export const isStaminaEnough = (): boolean => {
   try {
-    // 在实际项目中，可以从localStorage或服务器获取体力值
-    // 这里简化处理，默认返回true
-    return true;
+    // 调用Android接口检查体力值
+    if (window.Android && typeof window.Android.isStaminaEnough === 'function') {
+      return window.Android.isStaminaEnough();
+    } else {
+      console.log('Android接口不可用，使用默认体力值');
+      return true; // 开发环境默认值
+    }
   } catch (error) {
     // 出错时记录日志并返回false
-    console.log('检查体力值失败:', error);
+    console.error('检查体力值失败:', error);
     return false;
   }
 };
@@ -30,13 +34,18 @@ export const isStaminaEnough = (): boolean => {
  */
 export const expendStamina = (): boolean => {
   try {
-    // 在实际项目中，可以更新localStorage或调用服务器API扣除体力值
-    // 这里简化处理，默认返回true
-    console.log('体力值扣除成功');
-    return true;
+    // 调用Android接口扣除体力值
+    if (window.Android && typeof window.Android.expendStamina === 'function') {
+      const result = window.Android.expendStamina();
+      console.log('体力值扣除结果:', result);
+      return result;
+    } else {
+      console.log('Android接口不可用，使用默认体力值扣除');
+      return true; // 开发环境默认值
+    }
   } catch (error) {
     // 出错时记录日志并返回false
-    console.log('扣除体力值失败:', error);
+    console.error('扣除体力值失败:', error);
     return false;
   }
 }; 
