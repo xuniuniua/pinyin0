@@ -6,7 +6,7 @@ import holeImg from '../assets/hole.png';
 
 interface GameBoardProps {
   moles: MoleType[];
-  onPlaySound?: (char: string) => void;
+  onPlaySound?: (char: string, id: number) => void;
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({ moles, onPlaySound }) => {

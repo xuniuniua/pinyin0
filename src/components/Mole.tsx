@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mole as MoleType } from '../types/game';
 import '../styles/Mole.css';
@@ -8,7 +8,7 @@ import hammerImg from '../assets/hammer.png'; // 引入锤子图片
 
 interface MoleProps {
   mole: MoleType;
-  onPlaySound?: (char: string) => void; // 可选的播放声音函数
+  onPlaySound?: (char: string, id: number) => void;
 }
 
 const Mole: React.FC<MoleProps> = ({ mole, onPlaySound }) => {
@@ -59,7 +59,7 @@ const Mole: React.FC<MoleProps> = ({ mole, onPlaySound }) => {
     
     // 播放汉字读音
     if (onPlaySound) {
-      onPlaySound(mole.character.char);
+      onPlaySound(mole.character.char, mole.character.id);
     }
   };
 

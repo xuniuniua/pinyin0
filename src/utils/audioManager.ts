@@ -19,7 +19,7 @@ class AudioManager {
   private isMuted: boolean = false;
   private initialized: boolean = false;
   private initializingInProgress: boolean = false;
-  private backgroundAudioPath: string = './audio/background.mp3';
+  private backgroundAudioPath: string = './sounds/background.mp3';
   private retryCount: number = 0;
   private maxRetries: number = 3;
 

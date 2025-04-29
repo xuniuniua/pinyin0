@@ -15,7 +15,7 @@ import TimeDisplay from '../components/TimeDisplay';
 import { Level, Mole } from '../types/game';
 import characters from '../data/characters';
 import { isStaminaEnough, expendStamina } from '../utils/staminaUtils';
-import { playCharacterSound, playErrorSound, playHitSound, initAudioSystem, stopResultMusic } from '../utils/soundUtils';
+import { playCharacterSound, playCharacterSoundById, playErrorSound, playHitSound, initAudioSystem, stopResultMusic } from '../utils/soundUtils';
 import { audioManager } from '../utils/audioManager';
 import '../styles/GamePage.css';
 
@@ -211,7 +211,7 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
       // 短暂延迟后再设置命中和播放汉字读音
       setTimeout(() => {
         // 播放命中地鼠的汉字读音
-        playCharacterSound(moles[hitMoleIndex].character.char);
+        playCharacterSoundById(moles[hitMoleIndex].character.id, moles[hitMoleIndex].character.char);
         
         // 命中地鼠，先设置为击中状态但保持活跃
         setMoles(prev => 
@@ -570,7 +570,7 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
       
       if (moleIndex !== -1) {
         // 找到匹配的地鼠，在这里增加得分
-        playCharacterSound(moles[moleIndex].character.char);
+        playCharacterSoundById(moles[moleIndex].character.id, moles[moleIndex].character.char);
         setScore(prevScore => prevScore + 5);
         
         // 将已击中的汉字添加到集合中
@@ -629,7 +629,7 @@ const GamePage: React.FC<GamePageProps> = ({ level, onCompleteLevel }) => {
         
         <div className="game-content">
           <div className="game-left-section">
-            <GameBoard moles={moles} onPlaySound={playCharacterSound} />
+            <GameBoard moles={moles} onPlaySound={(char, id) => playCharacterSoundById(id, char)} />
             <div className="pinyin-input-wrapper">
               <ErrorToast
                 message="输入错误，再试试吧！"

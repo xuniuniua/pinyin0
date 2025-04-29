@@ -3,10 +3,11 @@ import { audioManager } from './audioManager';
 
 // 导入音效文件路径
 // 使用相对路径，确保正确加载
-const hitSoundPath = './audio/hit.mp3';
-const errorSoundPath = './audio/error.mp3';
-const successSoundPath = './audio/game_over_success.mp3';
-const failSoundPath = './audio/game_over_fail.mp3';
+const hitSoundPath = './sounds/hit.mp3';
+const errorSoundPath = './sounds/error.mp3';
+const successSoundPath = './sounds/game_over_success.mp3';
+const failSoundPath = './sounds/game_over_fail.mp3';
+const characterSoundBasePath = './sounds/characters/';
 
 // 音频上下文
 let audioContext: AudioContext | null = null;
@@ -16,6 +17,8 @@ let hitAudio: HTMLAudioElement | null = null;
 let errorAudio: HTMLAudioElement | null = null;
 let successAudio: HTMLAudioElement | null = null;
 let failAudio: HTMLAudioElement | null = null;
+// 汉字发音缓存
+const characterAudioCache: Record<string, HTMLAudioElement> = {};
 
 // 游戏结果音乐播放器
 let resultMusicPlayer: HTMLAudioElement | null = null;
@@ -107,6 +110,39 @@ export const playCharacterSound = (char: string): void => {
     window.speechSynthesis.speak(utterance);
   } catch (error) {
     console.error('播放汉字读音失败:', error);
+  }
+};
+
+// 根据汉字ID播放对应的音频文件
+export const playCharacterSoundById = (characterId: number, character: string): void => {
+  try {
+    const audioPath = `${characterSoundBasePath}${characterId}.mp3`;
+    
+    // 检查缓存中是否已有该音频
+    if (!characterAudioCache[characterId]) {
+      // 创建新的音频对象
+      const audio = new Audio(audioPath);
+      audio.preload = 'auto';
+      
+      // 添加错误处理
+      audio.addEventListener('error', (e) => {
+        console.warn(`汉字ID ${characterId} (${character}) 音频加载失败:`, (e.target as HTMLAudioElement).error);
+      });
+      
+      // 添加加载成功处理
+      audio.addEventListener('canplaythrough', () => {
+        console.log(`汉字ID ${characterId} (${character}) 音频加载成功`);
+      });
+      
+      // 缓存音频对象
+      characterAudioCache[characterId] = audio;
+    }
+    
+    // 播放音频
+    safePlayAudio(characterAudioCache[characterId], `汉字ID ${characterId} (${character}) 发音`);
+    
+  } catch (error) {
+    console.error(`播放汉字ID ${characterId} (${character}) 发音失败:`, error);
   }
 };
 
