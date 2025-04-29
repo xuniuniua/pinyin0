@@ -47,12 +47,44 @@ const initialLevels: Level[] = [
   { id: 42, targetScore: 65, timeLimit: 100, isLocked: true, isCompleted: false },
 ];
 
+// 定义用于存储的精简版关卡数据
+interface SavedLevelState {
+  id: number;
+  isLocked: boolean;
+  isCompleted: boolean;
+}
+
+// 将关卡数据转换为只包含需要保存的属性
+const convertLevelsForStorage = (levels: Level[]): SavedLevelState[] => {
+  return levels.map(level => ({
+    id: level.id,
+    isLocked: level.isLocked,
+    isCompleted: level.isCompleted
+  }));
+};
+
+// 从保存的数据中恢复完整的关卡数据
+const mergeSavedDataWithInitial = (savedLevels: SavedLevelState[]): Level[] => {
+  return initialLevels.map(initialLevel => {
+    const savedLevel = savedLevels.find(saved => saved.id === initialLevel.id);
+    if (savedLevel) {
+      return {
+        ...initialLevel,
+        isLocked: savedLevel.isLocked,
+        isCompleted: savedLevel.isCompleted
+      };
+    }
+    return initialLevel;
+  });
+};
+
 // 尝试从localStorage中获取数据的函数
 const getSavedLevels = (): Level[] => {
   try {
     const savedLevels = localStorage.getItem('moleGameLevels');
     if (savedLevels) {
-      return JSON.parse(savedLevels);
+      const parsedData = JSON.parse(savedLevels) as SavedLevelState[];
+      return mergeSavedDataWithInitial(parsedData);
     }
   } catch (error) {
     console.error('获取本地存储数据失败:', error);
@@ -64,12 +96,13 @@ export const useLevels = () => {
   // 直接使用函数初始化state，确保在组件首次渲染时就有数据
   const [levels, setLevels] = useState<Level[]>(getSavedLevels());
 
-  // 保存关卡进度到本地存储
+  // 保存关卡进度到本地存储，只保存isLocked和isCompleted
   useEffect(() => {
     if (levels.length > 0) {
       try {
-        console.log('保存关卡数据到本地存储:', levels);
-        localStorage.setItem('moleGameLevels', JSON.stringify(levels));
+        const dataToSave = convertLevelsForStorage(levels);
+        console.log('保存关卡数据到本地存储:', dataToSave);
+        localStorage.setItem('moleGameLevels', JSON.stringify(dataToSave));
       } catch (error) {
         console.error('保存关卡数据出错:', error);
       }
@@ -79,7 +112,8 @@ export const useLevels = () => {
   // 将关卡数据保存到本地存储
   const saveLevelsToLocalStorage = (levels: Level[]) => {
     try {
-      localStorage.setItem('moleGameLevels', JSON.stringify(levels));
+      const dataToSave = convertLevelsForStorage(levels);
+      localStorage.setItem('moleGameLevels', JSON.stringify(dataToSave));
       // 只在保存失败时记录日志
     } catch (error) {
       console.log('保存关卡数据失败:', error);

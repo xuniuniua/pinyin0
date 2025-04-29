@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
+import CharactersPage from './pages/CharactersPage';
 import useLevels from './hooks/useLevels';
 import './App.css';
 
@@ -38,6 +39,8 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/game/:levelId" element={<GameRoute />} />
+          <Route path="/characters" element={<CharactersPage />} />
+          <Route path="/characters/:levelId" element={<CharactersPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

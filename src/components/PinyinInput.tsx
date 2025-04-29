@@ -34,6 +34,13 @@ const PinyinInput: React.FC<PinyinInputProps> = ({ onPinyinSubmit, isGameActive 
       // 重置输入框
       setInput('');
       
+      // 无论成功与否，都重新聚焦到输入框
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 10);
+      
       // 如果输入错误，显示错误提示
       if (success === false) {
         setShowError(true);
@@ -60,6 +67,13 @@ const PinyinInput: React.FC<PinyinInputProps> = ({ onPinyinSubmit, isGameActive 
     }
   };
 
+  // 当组件更新时，始终保持焦点在输入框
+  useEffect(() => {
+    if (isGameActive && inputRef.current) {
+      inputRef.current.focus();
+    }
+  });
+
   return (
     <div className="pinyin-input-container">
       <input
@@ -73,6 +87,7 @@ const PinyinInput: React.FC<PinyinInputProps> = ({ onPinyinSubmit, isGameActive 
         className={`pinyin-input ${showError ? 'error' : ''}`}
         autoComplete="off"
         autoCapitalize="none"
+        autoFocus={isGameActive}
       />
     </div>
   );

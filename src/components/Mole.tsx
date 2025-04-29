@@ -61,6 +61,14 @@ const Mole: React.FC<MoleProps> = ({ mole, onPlaySound }) => {
     if (onPlaySound) {
       onPlaySound(mole.character.char, mole.character.id);
     }
+    
+    // 找到输入框并聚焦
+    setTimeout(() => {
+      const inputElement = document.querySelector('.pinyin-input') as HTMLInputElement;
+      if (inputElement) {
+        inputElement.focus();
+      }
+    }, 100); // 短暂延迟，确保DOM已更新
   };
 
   return (

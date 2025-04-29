@@ -159,11 +159,11 @@ const safePlayAudio = (audio: HTMLAudioElement | null, name: string): void => {
     
     // 根据音效类型设置不同的音量
     if (name === '击打音效') {
-      audio.volume = 1.0; // 击打音效音量降低到1.0，避免过高导致播放失败
+      audio.volume = 1.0; // 击打音效音量保持1.0，避免过高导致播放失败
     } else if (name === '错误音效' || name === '成功音效' || name === '失败音效') {
       audio.volume = 0.6; // 错误音效、成功音效和失败音效音量提高到0.6
     } else {
-      audio.volume = 0.2; // 其他音效保持原来的音量
+      audio.volume = 1.0; // 其他音效（包括汉字发音）音量调整为1.0
     }
     
     // 播放音频

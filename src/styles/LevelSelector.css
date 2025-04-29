@@ -10,6 +10,7 @@
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
+  border: none !important; /* 确保选择器本身没有边框 */
 }
 
 .level-title {
@@ -25,6 +26,9 @@
   gap: 26px; /* 横竖间距为26px */
   margin-bottom: 20px;
   justify-content: center;
+  background-color: transparent; /* 确保容器背景透明 */
+  border: none !important; /* 移除边框 */
+  outline: none !important; /* 移除轮廓 */
 }
 
 .level-button {
@@ -35,21 +39,21 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
-  background-color: transparent;
-  border: none;
+  background-color: transparent !important; /* 强制背景透明 */
+  border: none !important; /* 移除边框 */
   cursor: pointer;
   transition: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: none;
+  box-shadow: none !important; /* 移除阴影 */
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
   padding: 0;
   margin: 0;
-  outline: none;
+  outline: none !important; /* 移除轮廓 */
 }
 
 .level-button::after {
@@ -75,11 +79,13 @@
 
 .level-button.unlocked {
   background-image: url('../assets/level-unlocked.png');
+  background-color: transparent !important; /* 确保解锁按钮背景透明 */
 }
 
 .level-button.unlocked:hover {
   box-shadow: none;
   transform: none !important;
+  background-color: transparent !important; /* 悬停时保持背景透明 */
 }
 
 .level-button.unlocked:focus,
@@ -91,16 +97,17 @@
   border: none !important;
   opacity: 1;
   transform: none !important;
+  background-color: transparent !important; /* 聚焦时保持背景透明 */
 }
 
 .level-button.locked {
   background-image: url('../assets/level-locked.png');
-  background-color: transparent;
+  background-color: transparent !important; /* 确保锁定按钮背景透明 */
   cursor: not-allowed;
 }
 
 .level-button.completed {
-  background-color: transparent;
+  background-color: transparent !important; /* 确保完成按钮背景透明 */
 }
 
 .level-number {
@@ -191,6 +198,7 @@
     max-width: 1500px;
     margin: 320px 0 40px 0;
     padding: 30px;
+    border: none !important;
   }
   
   .level-title {
@@ -208,8 +216,10 @@
     height: 170px;
     font-size: 2rem;
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: none !important;
     background-size: contain;
+    border: none !important;
+    outline: none !important;
   }
   
   .level-number {
@@ -243,6 +253,7 @@
     max-width: 1800px;
     margin: 500px 0 60px 0;
     padding: 40px;
+    border: none !important;
   }
   
   .level-title {
@@ -260,8 +271,10 @@
     height: 200px;
     font-size: 2.4rem;
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: none !important;
     background-size: contain;
+    border: none !important;
+    outline: none !important;
   }
   
   .level-number {
@@ -300,6 +313,8 @@
     width: 120px;
     height: 120px;
     background-size: contain;
+    border: none !important;
+    outline: none !important;
   }
   
   .level-number {
@@ -319,6 +334,8 @@
     height: 100px;
     font-size: 1.3rem;
     background-size: contain;
+    border: none !important;
+    outline: none !important;
   }
   
   .level-number {
@@ -331,6 +348,7 @@
   .level-selector {
     padding: 15px;
     margin: 180px 0 20px 0;
+    border: none !important;
   }
   
   .levels-container {
@@ -342,8 +360,10 @@
     width: 80px;
     height: 80px;
     font-size: 1.1rem;
-    box-shadow: none;
+    box-shadow: none !important;
     background-size: contain;
+    border: none !important;
+    outline: none !important;
   }
   
   .level-number {
@@ -373,6 +393,8 @@
     height: 60px;
     font-size: 1rem;
     background-size: contain;
+    border: none !important;
+    outline: none !important;
   }
   
   .level-number {
